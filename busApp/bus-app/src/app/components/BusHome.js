@@ -21,7 +21,7 @@ export default function BusHome() {
 
   return (
     <div className="bg-gray-600 h-full">
-      <div className="text-center pt-32 md:pt-11">
+      <div className="text-center pt-10 md:pt-11">
         <h1>
           <span className="text-6xl lg:text-7xl text-red-300 font-extrabold">
             Bus
