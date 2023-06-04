@@ -7,7 +7,7 @@ import { MdMan } from "react-icons/md";
 export default function About() {
   return (
     <div className="bg-gray-600 h-full">
-      <div className="text-center text-4xl text-cyan-100 font-semibold pt-40 mb-10 lg:mb-0">
+      <div className="text-center text-4xl text-cyan-100 font-semibold pt-20 mb-10 lg:mb-0">
         <h1>Understanding BusyTime</h1>
       </div>
       <div className="flex justify-center mt-5 text-white ">
