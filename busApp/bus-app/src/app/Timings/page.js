@@ -39,7 +39,7 @@ export default function FortuneCookie() {
       const updatedData = result.Services.map((item) => {
         const currentDate = new Date();
         const givenDateTime = new Date(item.NextBus.EstimatedArrival);
-        const diffInMinutes = Math.round(
+        const diffInMinutes = Math.floor(
           (givenDateTime - currentDate) / (1000 * 60)
         );
 
@@ -53,7 +53,7 @@ export default function FortuneCookie() {
         }
 
         const givenDateTime2 = new Date(item.NextBus2.EstimatedArrival);
-        const diffInMinutes2 = Math.round(
+        const diffInMinutes2 = Math.floor(
           (givenDateTime2 - currentDate) / (1000 * 60)
         );
         let timing2 = "";
@@ -66,7 +66,7 @@ export default function FortuneCookie() {
         }
 
         const givenDateTime3 = new Date(item.NextBus3.EstimatedArrival);
-        const diffInMinutes3 = Math.round(
+        const diffInMinutes3 = Math.floor(
           (givenDateTime3 - currentDate) / (1000 * 60)
         );
         let timing3 = "";
