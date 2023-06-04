@@ -7,7 +7,7 @@ export default function Contact() {
   return (
     <div className="bg-gray-600 h-full">
       <div className="text-center">
-        <h1 className=" pt-48 pb-20 text-5xl lg:text-6xl text-white font-semibold">
+        <h1 className=" pt-56 pb-20 text-5xl lg:text-6xl text-white font-semibold">
           Contact Me
         </h1>
       </div>
