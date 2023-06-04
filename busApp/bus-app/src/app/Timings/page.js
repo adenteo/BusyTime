@@ -129,7 +129,7 @@ export default function FortuneCookie() {
               key={index}
             >
               <div className="w-20 text-center">
-                <FaBus className="text-2xl lg:text-3xl ml-[1.65rem] lg:ml-6 mb-1 " />
+                <FaBus className="text-2xl lg:text-3xl ml-[1.65rem] lg:ml-5 mb-1 " />
                 <h1 className="">{item.ServiceNo}</h1>
               </div>
               <div className="w-24 lg:w-28 ml-2 block text-center mt-2">
