@@ -6,22 +6,23 @@ import { AiTwotoneHome } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import { FaBus } from "react-icons/fa";
 import { BsStopwatchFill } from "react-icons/bs";
-import { GiClockwork } from "react-icons/gi";
-import { BsFillPeopleFill } from "react-icons/bs";
-import { BsFillPersonFill } from "react-icons/bs";
 import { MdMan } from "react-icons/md";
+import { IoReload } from "react-icons/io5";
 
 export default function FortuneCookie() {
   const searchParams = useSearchParams();
   const BusStopNum = searchParams.get("BusStopNum");
   const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     busData();
+    storeBusStop();
   }, []);
 
   const busData = async () => {
+    setIsLoading(true);
     var requestOptions = {
       method: "GET",
       redirect: "follow",
@@ -94,9 +95,43 @@ export default function FortuneCookie() {
           },
         };
       });
-
+      // Add to local storage
       setData(updatedData);
+      setIsLoading(false);
     }
+  };
+
+  const storeBusStop = () => {
+    const currentBusStopNum = BusStopNum;
+    if (!currentBusStopNum) return;
+
+    // Retrieve existing bus stop numbers from localStorage
+    const storedBusStops =
+      JSON.parse(localStorage.getItem("recentBusStops")) || [];
+
+    // Get the current date as a timestamp
+    const currentDate = new Date().getTime();
+
+    // Filter out expired bus stops (older than 7 days)
+    const validBusStops = storedBusStops.filter(
+      (stop) => currentDate - stop.timestamp <= 7 * 24 * 60 * 60 * 1000
+    );
+
+    // Check if the current bus stop already exists in the list
+    const busStopExists = validBusStops.some(
+      (stop) => stop.BusStopNum === currentBusStopNum
+    );
+
+    // If the bus stop doesn't exist, add it to the list with the current timestamp
+    if (!busStopExists) {
+      validBusStops.push({
+        BusStopNum: currentBusStopNum,
+        timestamp: currentDate,
+      });
+    }
+
+    // Update localStorage with the new list
+    localStorage.setItem("recentBusStops", JSON.stringify(validBusStops));
   };
 
   return (
@@ -118,11 +153,18 @@ export default function FortuneCookie() {
         </h1>{" "}
         <BsStopwatchFill className="text-white" />
       </div>
-      <div className="flex justify-center text-rose-100 text-xl font-medium">
+      <div className="flex justify-center text-rose-100 text-xl font-medium items-center space-x-3">
+        <IoReload
+          className={`${isLoading ? "animate-spin" : ""} text-2xl`}
+          onClick={() => {
+            busData();
+          }}
+        />
         <h1>Bus Stop Number: {BusStopNum}</h1>
       </div>
       <div className="mt-10">
         {data &&
+          !isLoading &&
           data.map((item, index) => (
             <div
               className="text-white text-lg lg:text-xl flex justify-center mb-5 border-b  pb-3 lg:w-3/12 mx-auto"

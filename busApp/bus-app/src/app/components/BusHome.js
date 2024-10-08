@@ -12,12 +12,24 @@ export default function BusHome() {
 
   function handleClick() {
     router.push(`/Timings?BusStopNum=${BusStopNum}`);
-    console.log(BusStopNum);
   }
 
   function handleInputChange(e) {
     setBusStopNum(e.target.value);
   }
+
+  const getRecentBusStops = () => {
+    const storedBusStops =
+      JSON.parse(localStorage.getItem("recentBusStops")) || [];
+    const currentDate = new Date().getTime();
+    const validBusStops = storedBusStops.filter(
+      (stop) => currentDate - stop.timestamp <= 7 * 24 * 60 * 60 * 1000
+    );
+
+    return validBusStops.map((stop) => stop.BusStopNum);
+  };
+
+  const recentBusStops = getRecentBusStops();
 
   return (
     <div className="bg-gray-600 h-full">
@@ -60,6 +72,22 @@ export default function BusHome() {
           <AiOutlineSend className="animate-bounce" />
         </button>
       </div>
+      {recentBusStops.length > 0 && (
+        <div className="mt-10 text-center text-white">
+          <h2 className="text-lg">Recently Used Bus Stops</h2>
+          <ul className="space-y-3 mt-3">
+            {recentBusStops.map((busStop, index) => (
+              <li
+                className="font-bold text-xl"
+                key={index}
+                onClick={() => router.push(`/Timings?BusStopNum=${busStop}`)}
+              >
+                {busStop}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
