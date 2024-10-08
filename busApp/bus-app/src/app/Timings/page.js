@@ -103,7 +103,7 @@ export default function FortuneCookie() {
 
   const storeBusStop = () => {
     const currentBusStopNum = BusStopNum;
-    if (!currentBusStopNum) return;
+    if (!currentBusStopNum || typeof window === "undefined") return;
 
     // Retrieve existing bus stop numbers from localStorage
     const storedBusStops =

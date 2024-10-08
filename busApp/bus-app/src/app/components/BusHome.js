@@ -1,14 +1,12 @@
 "use client";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
-// import buslogo from ".../public/buslogo.png";
 import { AiOutlineSend } from "react-icons/ai";
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function BusHome() {
   const router = useRouter();
   const [BusStopNum, setBusStopNum] = useState("");
+  const [recentBusStops, setRecentBusStops] = useState([]);
 
   function handleClick() {
     router.push(`/Timings?BusStopNum=${BusStopNum}`);
@@ -29,7 +27,12 @@ export default function BusHome() {
     return validBusStops.map((stop) => stop.BusStopNum);
   };
 
-  const recentBusStops = getRecentBusStops();
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const stops = getRecentBusStops();
+      setRecentBusStops(stops);
+    }
+  }, []);
 
   return (
     <div className="bg-gray-600 h-full">
